@@ -18,7 +18,7 @@ export default class Login extends Component {
         <div className='login' style={{backgroundColor: "#fffafa"}}>
             <div className="card buttonLogin">
                 <h3 style={{color: "black"}}>Welcome!</h3>
-                <Button className='buttonClick' label="Click to login with Google" />
+                <Button className='buttonClick' label="Click to login with Google" onClick={() => window.open("/home","_self")}/>
             </div>
         </div>
 
