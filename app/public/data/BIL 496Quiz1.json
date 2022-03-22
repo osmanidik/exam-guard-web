@@ -1,0 +1,69 @@
+
+{
+    "root":
+    [
+        {
+            "key": "0",
+            "data":{
+                "name":"496Student1Quiz1"
+            },
+            "children":[
+                {
+                    "key": "0-0",
+                    "data":{
+                        "name":"Record1"
+                    }
+                }
+            ]
+        },
+        {
+            "key": "1",
+            "data":{
+                "name":"496Student2Quiz1"
+            },
+            "children":[
+                {
+                    "key": "1-0",
+                    "data":{
+                        "name":"Record1"
+                    }
+                }
+            ]
+        },
+        {
+            "key": "2",
+            "data": {
+                "name":"496Student3Quiz1"
+            },
+            "children":[
+                {
+                    "key": "2-0",
+                    "data":{
+                        "name":"Record1"
+                    }
+                }
+            ]
+        },
+        {
+            "key": "3",
+            "data":{
+                "name":"496Student4Quiz1"
+            },
+            "children":[
+                {
+                    "key": "3-0",
+                    "data":{
+                        "name":"Record1"
+                    }
+                },
+                {
+                    "key": "3-1",
+                    "data":{
+                        "name":"Record2"
+                    }
+                }
+            ]
+        }
+    ]
+}
+     
