@@ -74,7 +74,7 @@ export class Exam extends Component {
     }
 
     onSelect(event) {
-
+        window.open("/record", "_self")
     }
 
 
@@ -92,7 +92,7 @@ export class Exam extends Component {
                 <h3>{this.props.course} {this.props.exam}</h3>
                 <div className="card CourseTable">
                     <TreeTable value={this.state.nodes} 
-                        rowClassName={this.rowClassName} 
+                        rowClassName={this.rowClassName}
                         selectionMode="single" 
                         selectionKeys={this.state.selectedNodeKey} 
                         onSelectionChange={e => this.setState({ selectedNodeKey: e.value })}

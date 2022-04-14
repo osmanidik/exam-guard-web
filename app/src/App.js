@@ -5,6 +5,7 @@ import "primeicons/primeicons.css";
 import { BrowserRouter, Routes, Route} from 'react-router-dom';
 import Home from './components/Home';
 import Login from './components/Login';
+import Record from './components/Record';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
           <Routes>
             <Route path='/home' element={<Home/>}/>
             <Route path='/' exact element={<Login/>}/>
+            <Route path='/record' exact element={<Record/>}/>
         </Routes>
       </BrowserRouter>
     </div>
