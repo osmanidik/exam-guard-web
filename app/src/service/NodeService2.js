@@ -11,7 +11,7 @@ export class NodeService2 extends Component {
     
     getTreeTableNodes(course, exam) {
         let path2 = "data/" + course + exam + ".json";
-        console.log(path2);
+        //console.log(path2);
         return fetch(path2).then(res => res.json())
                 .then(d => d.root);
     }

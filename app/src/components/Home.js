@@ -1,4 +1,5 @@
-
+import '../App.css';
+import { Container, Row, Col } from 'react-grid-system';
 import React, { Component } from 'react';
 import { TreeTable } from 'primereact/treetable';
 import { Toast } from 'primereact/toast';
@@ -67,6 +68,7 @@ export class Exam extends Component {
         this.state = {
             nodes: [],
             selectedNodeKey: null,
+            selectedRecord: ""
         };
 
         this.nodeservice2 = new NodeService2(this.props.exam);
@@ -74,7 +76,8 @@ export class Exam extends Component {
     }
 
     onSelect(event) {
-        window.open("/record", "_self")
+        //window.open("/record", "_self")
+        this.setState({selectedRecord: event});
     }
 
 
@@ -100,8 +103,39 @@ export class Exam extends Component {
                         <Column field="name" header="Students" expander></Column>
                     </TreeTable>
                 </div>
+                <div>
+                    <Record record = {this.state.selectedRecord}></Record>
+                </div>
             </div>
         )
     }
 }
-                 
+export class Record extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+
+        };
+
+
+    }
+
+    render() {
+        return (
+            <div className='GridCont'>
+                <Container fluid>
+                    <Row debug style={{height:"35vmin"}}>
+                        <Col debug >Video</Col>
+                        <Col debug >Seçilen Foto</Col>
+                    </Row>
+                    <br></br>
+                    <Row debug style={{height:"35vmin"}}>
+                        <Col debug >Riskli Anlar Listesi</Col>
+                        <Col debug>Menü</Col>
+                    </Row>
+                </Container>
+            </div>
+        )
+    }
+}                
