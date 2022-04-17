@@ -15,7 +15,8 @@ export default class Home extends Component {
             nodes: [],
             selectedNodeKey: null,
             exam: "",
-            course: ""
+            course: "",
+            record: ""
         };
 
         this.nodeservice = new NodeService();
@@ -27,6 +28,7 @@ export default class Home extends Component {
         let course = event.node.data.parent;
         let exam = event.node.data.name;
         this.toast.show({ severity: 'info', summary: 'Exam Selected', detail: course + " " +  exam });
+        console.log(exam)
         this.setState({exam: exam});
         this.setState({course: course})
     }
@@ -65,10 +67,11 @@ export class Exam extends Component {
 
     constructor(props) {
         super(props);
+        this.onSelect = this.onSelect.bind(this)
         this.state = {
             nodes: [],
             selectedNodeKey: null,
-            selectedRecord: ""
+            record: ""
         };
 
         this.nodeservice2 = new NodeService2(this.props.exam);
@@ -76,8 +79,8 @@ export class Exam extends Component {
     }
 
     onSelect(event) {
-        //window.open("/record", "_self")
-        this.setState({selectedRecord: event});
+        let record = event.node.data.name;
+        this.setState({record: record});
     }
 
 
@@ -104,7 +107,7 @@ export class Exam extends Component {
                     </TreeTable>
                 </div>
                 <div>
-                    <Record record = {this.state.selectedRecord}></Record>
+                    <Record record = {this.state.record}></Record>
                 </div>
             </div>
         )
@@ -117,20 +120,19 @@ export class Record extends Component {
         this.state = {
 
         };
-
-
     }
 
     render() {
         return (
             <div className='GridCont'>
+                <h5>{"record: " + this.props.record}</h5>
                 <Container fluid>
-                    <Row debug style={{height:"35vmin"}}>
+                    <Row debug className='row'>
                         <Col debug >Video</Col>
                         <Col debug >Seçilen Foto</Col>
                     </Row>
                     <br></br>
-                    <Row debug style={{height:"35vmin"}}>
+                    <Row debug className='row'>
                         <Col debug >Riskli Anlar Listesi</Col>
                         <Col debug>Menü</Col>
                     </Row>
