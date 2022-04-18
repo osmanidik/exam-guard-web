@@ -362,20 +362,22 @@ export class Record extends Component {
     }
   };
   handlePlayerLoad = () => {
-    let arr = [];
+    let arr=[0];
     this.timestampArray.forEach((element, index) => {
       if (index % 2 == 0) {
         let elem = (
-          <Button id={index} onClick={()=>{this.goToRiskyMoment(element)}}>
+          <Button onClick={()=>{this.goToRiskyMoment(element)}}>
             {element / 1000}. saniye
           </Button>
         );
         arr.push(elem);
       }
-      this.setState({
-        timestampButtons: arr,
-      });
+   
     });
+    this.setState({
+      timestampButtons: arr
+    });
+    console.log(this.timestampButtons)
   };
   render() {
     return (
@@ -445,7 +447,7 @@ export class Record extends Component {
           <Row debug style={{ height: "35vmin" }}>
             <Col debug>
               <p>Riskli Anlar</p>
-              {this.timestampButtons}
+              {this.state.timestampButtons}
             </Col>
             <Col debug>Menü</Col>
           </Row>
