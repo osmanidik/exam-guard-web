@@ -11,6 +11,7 @@ import { NodeService2 } from "../service/NodeService2";
 import YoutubeEmbed from "./YouTubeEmbed";
 import ReactPlayer from "react-player";
 import { Player } from "video-react";
+import { Image } from 'primereact/image';
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
 import { Button } from "primereact/button";
 
@@ -37,6 +38,7 @@ export default class Home extends Component {
       selectedNodeKey: null,
       exam: "",
       course: "",
+      user: JSON.parse(localStorage.getItem('user')),
     };
 
     this.nodeservice = new NodeService();
@@ -60,7 +62,6 @@ export default class Home extends Component {
     this.nodeservice
       .getTreeTableNodes()
       .then((data) => this.setState({ nodes: data }));
-    this.setState({user: this.props.user})
   }
 
   rowClassName(node) {
@@ -429,14 +430,16 @@ export class Record extends Component {
                 </Button>
               </div>
             </Col>
-            <Col debug>Seçilen Foto
-            <img style={{width:"100%", minHeight:"300px"}} alt="lastPaperControl" src={this.state.lastPaperControl}/>
-            <img style={{width:"100%",minHeight:"300px"}} alt="idControl" src={this.state.idControl}/>
-            <img style={{width:"100%",minHeight:"300px"}} alt="firstPaperControl" src={this.state.firstPaperControl}/>
-            <img style={{width:"100%",minHeight:"300px"}} alt="lastPaperControl2" src={this.state.lastPaperControl2}/>
-            
-              
-              </Col>
+            <Col debug>
+                <p style={{marginBottom:0, marginTop:0}}>Loaded Exam Paper</p>
+                <Image src={this.state.lastPaperControl} alt="Image" width="250" height="150" preview />
+                <p style={{marginBottom:0, marginTop:0}}>ID Check</p>
+                <Image src={this.state.idControl} alt="Image" width="250" height="150" preview />
+                <p style={{marginBottom:0, marginTop:0}}>Empty Paper Check</p>
+                <Image src={this.state.firstPaperControl} alt="Image" width="250" height="150" preview />
+                <p style={{marginBottom:0, marginTop:0}}>Preloaded Exam Paper</p>
+                <Image src={this.state.lastPaperControl2} alt="Image" width="250" height="150" preview />
+            </Col>
           </Row>
           <br></br>
           <Row debug style={{ height: "35vmin" }}>
