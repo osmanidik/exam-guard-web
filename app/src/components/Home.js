@@ -194,9 +194,13 @@ export class Record extends Component {
   handleStepByStepNext = () => {
     this.setState({ stepByStepMode: "on" });
     if (this.state.riskyMomentCounter + 2 < this.timestampArray.length) {
-      this.setState({ riskyMomentCounter: this.state.riskyMomentCounter + 2 });
+      this.setState(
+        { riskyMomentCounter: this.state.riskyMomentCounter + 2 },
+        () => {
+          this.handleStepByStepNext2();
+        }
+      );
     }
-    this.handleStepByStepNext2();
   };
   handleStepByStepNext2 = () => {
     this.p.currentTime =
@@ -206,11 +210,15 @@ export class Record extends Component {
   handleStepByStepPrevious = () => {
     this.setState({ stepByStepMode: "on" });
     if (this.state.riskyMomentCounter > 1) {
-      this.setState({
-        riskyMomentCounter: Math.max(0, this.state.riskyMomentCounter - 2),
-      });
+      this.setState(
+        {
+          riskyMomentCounter: Math.max(0, this.state.riskyMomentCounter - 2),
+        },
+        () => {
+          this.handleStepByStepPrevious2();
+        }
+      );
     }
-    this.handleStepByStepPrevious2();
   };
   handleStepByStepPrevious2 = () => {
     this.p.currentTime =
@@ -226,15 +234,17 @@ export class Record extends Component {
   };
 
   goToRiskyMoment = (time) => {
-    console.log("butona basildi");
-    this.p.currentTime = time/1000;
-    console.log(this.p.currentTime);
-    this.p.play();
+    if (this.state.stepByStepMode === "on") {
+      this.p.currentTime = time / 1000;
+      console.log(this.p.currentTime);
+      this.p.play();
+    }
   };
   handlePlaying = () => {
     this.setState({ stepByStepMode: "off" });
 
     this.arrCounter = 0;
+    this.setState({ riskyMomentCounter: 0 });
     this.p.currentTime = this.timestampArray[this.arrCounter] / 1000;
     this.p.play();
   };
@@ -249,8 +259,20 @@ export class Record extends Component {
         ) < 0.4
       ) {
         this.arrCounter = this.arrCounter + 2;
+        this.setState({ riskyMomentCounter: this.arrCounter });
         this.p.currentTime = this.timestampArray[this.arrCounter] / 1000;
         this.p.play();
+      }
+    } else {
+      console.log("durmali");
+
+      if (
+        Math.abs(
+          this.p.currentTime -
+            this.timestampArray[this.state.riskyMomentCounter + 1] / 1000
+        ) < 0.4
+      ) {
+        this.p.pause();
       }
     }
   };
@@ -259,15 +281,15 @@ export class Record extends Component {
     this.timestampArray.forEach((element, index) => {
       if (index % 2 == 0) {
         let elem = (
-          <Button id={index} onClick={this.goToRiskyMoment(element)}>
+          <Button id={index} onClick={()=>{this.goToRiskyMoment(element)}}>
             {element / 1000}. saniye
           </Button>
         );
         arr.push(elem);
       }
       this.setState({
-        timestampButtons: arr
-      })
+        timestampButtons: arr,
+      });
     });
   };
   render() {
@@ -288,6 +310,9 @@ export class Record extends Component {
                 width="100%"
                 allowfullscreen
               ></video>
+              {this.state.stepByStepMode && (
+                <p>Riskli An: {this.state.riskyMomentCounter / 2 + 1}</p>
+              )}
               <div>
                 <Button
                   style={{ backgroundColor: "red" }}
@@ -303,14 +328,14 @@ export class Record extends Component {
                   onClick={this.handleStepByStepPrevious}
                 >
                   Önceki Riskli Anı Oynat: Riskli An{" "}
-                  {this.state.riskyMomentCounter / 2}
+                  {0 < this.state.riskyMomentCounter ?this.state.riskyMomentCounter / 2 : "YOK" }
                 </Button>
                 <Button
                   style={{ backgroundColor: "blue" }}
                   onClick={this.handleStepByStepNext}
                 >
                   Sıradaki Riskli Ana Geç: Riskli An{" "}
-                  {this.state.riskyMomentCounter / 2 + 2}
+                  {this.timestampArray.length > this.state.riskyMomentCounter + 2 ?this.state.riskyMomentCounter / 2 + 2: "YOK" }
                 </Button>
               </div>
               <div>
