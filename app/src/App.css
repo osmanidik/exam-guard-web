@@ -20,13 +20,13 @@
 }
 
 .login{
-  height: 50vmin;
   width: 40%;
   box-shadow: 8px 6px #4e4e4e;
 }
 
 .buttonLogin{
-  margin-top: 17% !important;
+	margin-top: 17% !important;
+	margin-bottom: 20% !important;
 }
 
 .buttonClick{

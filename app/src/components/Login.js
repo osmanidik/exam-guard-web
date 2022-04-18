@@ -27,13 +27,11 @@ const uiConfig = {
   },
 };
 
-function Login(props) {
-  const setUser = props.getUser;
+function Login() {
   useEffect(() => {
     const unregisterAuthObserver = firebase.auth().onAuthStateChanged(user => {
       if (!!user) {
-        console.log(user);
-        setUser(user);
+        localStorage.setItem('user', JSON.stringify(user));
         window.open("/home","_self");
       }
     });

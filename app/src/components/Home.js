@@ -35,6 +35,7 @@ export default class Home extends Component {
       selectedNodeKey: null,
       exam: "",
       course: "",
+      user: JSON.parse(localStorage.getItem('user')),
     };
 
     this.nodeservice = new NodeService();
@@ -58,7 +59,6 @@ export default class Home extends Component {
     this.nodeservice
       .getTreeTableNodes()
       .then((data) => this.setState({ nodes: data }));
-    this.setState({user: this.props.user})
   }
 
   rowClassName(node) {
