@@ -1,5 +1,6 @@
 import "../App.css";
-import { initializeApp } from "firebase/app";
+import { initializeApp} from "firebase/app";
+
 import { Container, Row, Col } from "react-grid-system";
 import React, { Component } from "react";
 import { TreeTable } from "primereact/treetable";
@@ -12,6 +13,7 @@ import ReactPlayer from "react-player";
 import { Player } from "video-react";
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
 import { Button } from "primereact/button";
+
 const firebaseConfig = {
   apiKey: "AIzaSyCl6GmEgISrQQu7t6n-WbqBOplfluy5rVE",
   authDomain: "exam-guard.firebaseapp.com",
@@ -155,6 +157,7 @@ export class Record extends Component {
     super(props);
     this.state = {
       video: null,
+      timestampArray: [],
       riskyMomentCounter: 0,
       stepByStepMode: "on",
       timestampButtons: [],
@@ -167,6 +170,9 @@ export class Record extends Component {
 
   componentDidMount() {
     const storage = getStorage(firebaseApp);
+   // const studentDoc = db.collection("courses").doc("BIL421").collection("exams").doc("20212022SpringFirstExam").collection("examStudents").doc("161101024").get();
+    //const studentData = studentDoc.data();
+ //   console.log(studentData.riskyMoments);
 
     getDownloadURL(ref(storage, "BIL421/20212022SpringFirstExam/161101024/examVideo/ogrenciKayit161101024.mp4"))
       .then((url) => {
@@ -245,6 +251,7 @@ export class Record extends Component {
       .catch((error) => {
         // Handle any errors
       });
+      
       getDownloadURL(ref(storage, "BIL421/20212022SpringFirstExam/161101024/idCheck/id_161101024.jpg"))
       .then((url) => {
         // `url` is the download URL for 'images/stars.jpg'
@@ -268,14 +275,11 @@ export class Record extends Component {
 
   //<video controls onClick={console.log("aaaa")} autoPlay={true} src="https://firebasestorage.googleapis.com/v0/b/exam-guard.appspot.com/o/BIL421%2Fexam1%2F161101024%2FexamVideo%2FogrenciKayit161101024.mp4?alt=media&token=f7f9c1ae-f0f4-4e82-94f5-28df7f0678f0">
   //</video>
-  timestampArray = [
-    1798, 5808, 8093, 10490, 11797, 12424, 13527, 14400, 15465, 17465, 17686,
-    23523,
-  ];
+
   arrCounter = 0;
   handleStepByStepNext = () => {
     this.setState({ stepByStepMode: "on" });
-    if (this.state.riskyMomentCounter + 2 < this.timestampArray.length) {
+    if (this.state.riskyMomentCounter + 2 < this.state.timestampArray.length) {
       this.setState(
         { riskyMomentCounter: this.state.riskyMomentCounter + 2 },
         () => {
@@ -286,7 +290,7 @@ export class Record extends Component {
   };
   handleStepByStepNext2 = () => {
     this.p.currentTime =
-      this.timestampArray[this.state.riskyMomentCounter] / 1000;
+      this.state.timestampArray[this.state.riskyMomentCounter] / 1000;
     this.p.play();
   };
   handleStepByStepPrevious = () => {
@@ -304,14 +308,14 @@ export class Record extends Component {
   };
   handleStepByStepPrevious2 = () => {
     this.p.currentTime =
-      this.timestampArray[this.state.riskyMomentCounter] / 1000;
+      this.state.timestampArray[this.state.riskyMomentCounter] / 1000;
     this.p.play();
   };
 
   replayLastRiskyMoment = () => {
     this.setState({ stepByStepMode: "on" });
     this.p.currentTime =
-      this.timestampArray[this.state.riskyMomentCounter] / 1000;
+      this.state.timestampArray[this.state.riskyMomentCounter] / 1000;
     this.p.play();
   };
 
@@ -326,22 +330,22 @@ export class Record extends Component {
 
     this.arrCounter = 0;
     this.setState({ riskyMomentCounter: 0 });
-    this.p.currentTime = this.timestampArray[this.arrCounter] / 1000;
+    this.p.currentTime = this.state.timestampArray[this.arrCounter] / 1000;
     this.p.play();
   };
   onTimeChange = () => {
     if (
       this.state.stepByStepMode === "off" &&
-      this.arrCounter < this.timestampArray.length - 1
+      this.arrCounter < this.state.timestampArray.length - 1
     ) {
       if (
         Math.abs(
-          this.p.currentTime - this.timestampArray[this.arrCounter + 1] / 1000
+          this.p.currentTime - this.state.timestampArray[this.arrCounter + 1] / 1000
         ) < 0.4
       ) {
         this.arrCounter = this.arrCounter + 2;
         this.setState({ riskyMomentCounter: this.arrCounter });
-        this.p.currentTime = this.timestampArray[this.arrCounter] / 1000;
+        this.p.currentTime = this.state.timestampArray[this.arrCounter] / 1000;
         this.p.play();
       }
     } else {
@@ -349,7 +353,7 @@ export class Record extends Component {
       if (
         Math.abs(
           this.p.currentTime -
-            this.timestampArray[this.state.riskyMomentCounter + 1] / 1000
+            this.state.timestampArray[this.state.riskyMomentCounter + 1] / 1000
         ) < 0.4
       ) {
         this.p.pause();
@@ -358,7 +362,7 @@ export class Record extends Component {
   };
   handlePlayerLoad = () => {
     let arr = [];
-    this.timestampArray.forEach((element, index) => {
+    this.state.timestampArray.forEach((element, index) => {
       if (index % 2 == 0) {
         let elem = (
           <Button id={index} onClick={()=>{this.goToRiskyMoment(element)}}>
@@ -415,7 +419,7 @@ export class Record extends Component {
                   onClick={this.handleStepByStepNext}
                 >
                   Sıradaki Riskli Ana Geç: Riskli An{" "}
-                  {this.timestampArray.length > this.state.riskyMomentCounter + 2 ?this.state.riskyMomentCounter / 2 + 2: "YOK" }
+                  {this.state.timestampArray.length > this.state.riskyMomentCounter + 2 ?this.state.riskyMomentCounter / 2 + 2: "YOK" }
                 </Button>
               </div>
               <div>
