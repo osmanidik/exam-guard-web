@@ -161,6 +161,7 @@ export class Record extends Component {
       firstPaperControl: null,
       idControl: null,
       lastPaperControl: null,
+      lastPaperControl2: null,
     };
   }
 
@@ -187,7 +188,7 @@ export class Record extends Component {
         // Handle any errors
       });
 
-      getDownloadURL(ref(storage, "BIL421/20212022SpringFirstExam/161101024/firstPaperCheck/firstpapercontrol_161101024.jp"))
+      getDownloadURL(ref(storage, "BIL421/20212022SpringFirstExam/161101024/firstPaperCheck/firstpapercontrol_161101024.jpg"))
       .then((url) => {
         // `url` is the download URL for 'images/stars.jpg'
 
@@ -199,7 +200,64 @@ export class Record extends Component {
         };
         xhr.open("GET", url);
         xhr.send();
-        this.setState({ video: url });
+        this.setState({ firstPaperControl: url });
+        console.log(this.state.url);
+        // Or inserted into an <img> element
+      })
+      .catch((error) => {
+        // Handle any errors
+      });
+      getDownloadURL(ref(storage, "BIL421/20212022SpringFirstExam/161101024/lastPaperCheck/dosya_161101024.jpg"))
+      .then((url) => {
+        // `url` is the download URL for 'images/stars.jpg'
+
+        // This can be downloaded directly:
+        const xhr = new XMLHttpRequest();
+        xhr.responseType = "blob";
+        xhr.onload = (event) => {
+          const blob = xhr.response;
+        };
+        xhr.open("GET", url);
+        xhr.send();
+        this.setState({ lastPaperControl: url });
+        console.log(this.state.url);
+        // Or inserted into an <img> element
+      })
+      .catch((error) => {
+        // Handle any errors
+      });
+      getDownloadURL(ref(storage, "BIL421/20212022SpringFirstExam/161101024/lastPaperCheck/lastpaper_161101024.jpg"))
+      .then((url) => {
+        // `url` is the download URL for 'images/stars.jpg'
+
+        // This can be downloaded directly:
+        const xhr = new XMLHttpRequest();
+        xhr.responseType = "blob";
+        xhr.onload = (event) => {
+          const blob = xhr.response;
+        };
+        xhr.open("GET", url);
+        xhr.send();
+        this.setState({ lastPaperControl2: url });
+        console.log(this.state.url);
+        // Or inserted into an <img> element
+      })
+      .catch((error) => {
+        // Handle any errors
+      });
+      getDownloadURL(ref(storage, "BIL421/20212022SpringFirstExam/161101024/idCheck/id_161101024.jpg"))
+      .then((url) => {
+        // `url` is the download URL for 'images/stars.jpg'
+
+        // This can be downloaded directly:
+        const xhr = new XMLHttpRequest();
+        xhr.responseType = "blob";
+        xhr.onload = (event) => {
+          const blob = xhr.response;
+        };
+        xhr.open("GET", url);
+        xhr.send();
+        this.setState({ idControl: url });
         console.log(this.state.url);
         // Or inserted into an <img> element
       })
@@ -368,9 +426,10 @@ export class Record extends Component {
               </div>
             </Col>
             <Col debug>Seçilen Foto
-            <img alt="lastPaperControl" src={this.state.lastPaperControl}/>
-            <img alt="idControl" src={this.state.idControl}/>
-            <img alt="firstPaperControl" src={this.state.firstPaperControl}/>
+            <img style={{width:"100%", minHeight:"300px"}} alt="lastPaperControl" src={this.state.lastPaperControl}/>
+            <img style={{width:"100%",minHeight:"300px"}} alt="idControl" src={this.state.idControl}/>
+            <img style={{width:"100%",minHeight:"300px"}} alt="firstPaperControl" src={this.state.firstPaperControl}/>
+            <img style={{width:"100%",minHeight:"300px"}} alt="lastPaperControl2" src={this.state.lastPaperControl2}/>
             
               
               </Col>
