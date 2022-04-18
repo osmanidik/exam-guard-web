@@ -44,15 +44,11 @@
 
 .GridCont {
   width: 60%;
-  height: 75vmin !important;
   margin-top: 10%;
   margin-left: 20%;
   margin-bottom: 20%;
 }
 
-.row{
-  height: 35vh;
-}
 
 .App-header {
   background-color: #282c34;
