@@ -58,6 +58,7 @@ export default class Home extends Component {
     this.nodeservice
       .getTreeTableNodes()
       .then((data) => this.setState({ nodes: data }));
+    this.setState({user: this.props.user})
   }
 
   rowClassName(node) {
