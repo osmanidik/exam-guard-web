@@ -158,7 +158,6 @@ export class Record extends Component {
     super(props);
     this.state = {
       video: null,
-      timestampArray: [],
       riskyMomentCounter: 0,
       stepByStepMode: "on",
       timestampButtons: [],
@@ -278,9 +277,10 @@ export class Record extends Component {
   //</video>
 
   arrCounter = 0;
+  timestampArray = [6000,8000,43000,47000,52000,56000,57000,60000,75000,79000,87000,91000,92000,97000]
   handleStepByStepNext = () => {
     this.setState({ stepByStepMode: "on" });
-    if (this.state.riskyMomentCounter + 2 < this.state.timestampArray.length) {
+    if (this.state.riskyMomentCounter + 2 < this.timestampArray.length) {
       this.setState(
         { riskyMomentCounter: this.state.riskyMomentCounter + 2 },
         () => {
@@ -291,7 +291,7 @@ export class Record extends Component {
   };
   handleStepByStepNext2 = () => {
     this.p.currentTime =
-      this.state.timestampArray[this.state.riskyMomentCounter] / 1000;
+      this.timestampArray[this.state.riskyMomentCounter] / 1000;
     this.p.play();
   };
   handleStepByStepPrevious = () => {
@@ -309,14 +309,14 @@ export class Record extends Component {
   };
   handleStepByStepPrevious2 = () => {
     this.p.currentTime =
-      this.state.timestampArray[this.state.riskyMomentCounter] / 1000;
+      this.timestampArray[this.state.riskyMomentCounter] / 1000;
     this.p.play();
   };
 
   replayLastRiskyMoment = () => {
     this.setState({ stepByStepMode: "on" });
     this.p.currentTime =
-      this.state.timestampArray[this.state.riskyMomentCounter] / 1000;
+      this.timestampArray[this.state.riskyMomentCounter] / 1000;
     this.p.play();
   };
 
@@ -331,22 +331,22 @@ export class Record extends Component {
 
     this.arrCounter = 0;
     this.setState({ riskyMomentCounter: 0 });
-    this.p.currentTime = this.state.timestampArray[this.arrCounter] / 1000;
+    this.p.currentTime = this.timestampArray[this.arrCounter] / 1000;
     this.p.play();
   };
   onTimeChange = () => {
     if (
       this.state.stepByStepMode === "off" &&
-      this.arrCounter < this.state.timestampArray.length - 1
+      this.arrCounter < this.timestampArray.length - 1
     ) {
       if (
         Math.abs(
-          this.p.currentTime - this.state.timestampArray[this.arrCounter + 1] / 1000
+          this.p.currentTime - this.timestampArray[this.arrCounter + 1] / 1000
         ) < 0.4
       ) {
         this.arrCounter = this.arrCounter + 2;
         this.setState({ riskyMomentCounter: this.arrCounter });
-        this.p.currentTime = this.state.timestampArray[this.arrCounter] / 1000;
+        this.p.currentTime = this.timestampArray[this.arrCounter] / 1000;
         this.p.play();
       }
     } else {
@@ -354,7 +354,7 @@ export class Record extends Component {
       if (
         Math.abs(
           this.p.currentTime -
-            this.state.timestampArray[this.state.riskyMomentCounter + 1] / 1000
+            this.timestampArray[this.state.riskyMomentCounter + 1] / 1000
         ) < 0.4
       ) {
         this.p.pause();
@@ -363,7 +363,7 @@ export class Record extends Component {
   };
   handlePlayerLoad = () => {
     let arr = [];
-    this.state.timestampArray.forEach((element, index) => {
+    this.timestampArray.forEach((element, index) => {
       if (index % 2 == 0) {
         let elem = (
           <Button id={index} onClick={()=>{this.goToRiskyMoment(element)}}>
@@ -420,7 +420,7 @@ export class Record extends Component {
                   onClick={this.handleStepByStepNext}
                 >
                   Sıradaki Riskli Ana Geç: Riskli An{" "}
-                  {this.state.timestampArray.length > this.state.riskyMomentCounter + 2 ?this.state.riskyMomentCounter / 2 + 2: "YOK" }
+                  {this.timestampArray.length > this.state.riskyMomentCounter + 2 ?this.state.riskyMomentCounter / 2 + 2: "YOK" }
                 </Button>
               </div>
               <div>
@@ -445,7 +445,7 @@ export class Record extends Component {
           <Row debug style={{ height: "35vmin" }}>
             <Col debug>
               <p>Riskli Anlar</p>
-              {this.state.timestampButtons}
+              {this.timestampButtons}
             </Col>
             <Col debug>Menü</Col>
           </Row>
