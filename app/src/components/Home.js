@@ -362,7 +362,7 @@ export class Record extends Component {
     }
   };
   handlePlayerLoad = () => {
-    let arr=[0];
+    let arr=[];
     this.timestampArray.forEach((element, index) => {
       if (index % 2 == 0) {
         let elem = (
