@@ -157,13 +157,36 @@ export class Record extends Component {
       riskyMomentCounter: 0,
       stepByStepMode: "on",
       timestampButtons: [],
+      firstPaperControl: null,
+      idControl: null,
+      lastPaperControl: null,
     };
   }
 
   componentDidMount() {
     const storage = getStorage(firebaseApp);
 
-    getDownloadURL(ref(storage, "BIL421/exam1/161101024/examVideo/deneme.mp4"))
+    getDownloadURL(ref(storage, "BIL421/20212022SpringFirstExam/161101024/examVideo/ogrenciKayit161101024.mp4"))
+      .then((url) => {
+        // `url` is the download URL for 'images/stars.jpg'
+
+        // This can be downloaded directly:
+        const xhr = new XMLHttpRequest();
+        xhr.responseType = "blob";
+        xhr.onload = (event) => {
+          const blob = xhr.response;
+        };
+        xhr.open("GET", url);
+        xhr.send();
+        this.setState({ video: url });
+        console.log(this.state.url);
+        // Or inserted into an <img> element
+      })
+      .catch((error) => {
+        // Handle any errors
+      });
+
+      getDownloadURL(ref(storage, "BIL421/20212022SpringFirstExam/161101024/firstPaperCheck/firstpapercontrol_161101024.jp"))
       .then((url) => {
         // `url` is the download URL for 'images/stars.jpg'
 
@@ -234,11 +257,10 @@ export class Record extends Component {
   };
 
   goToRiskyMoment = (time) => {
-    if (this.state.stepByStepMode === "on") {
+    console.log(time);
       this.p.currentTime = time / 1000;
       console.log(this.p.currentTime);
       this.p.play();
-    }
   };
   handlePlaying = () => {
     this.setState({ stepByStepMode: "off" });
@@ -264,7 +286,6 @@ export class Record extends Component {
         this.p.play();
       }
     } else {
-      console.log("durmali");
 
       if (
         Math.abs(
@@ -306,9 +327,9 @@ export class Record extends Component {
                   this.p = p;
                 }}
                 controls
-                src="https://firebasestorage.googleapis.com/v0/b/exam-guard.appspot.com/o/BIL421%2F20212022SpringFirstExam%2F161101024%2FexamVideo%2FogrenciKayit161101024.mp4?alt=media&token=2a558091-3716-4bd8-ac79-b39c546211ea"
+                src={this.state.video}
                 width="100%"
-                allowfullscreen
+                allowFullScreen
               ></video>
               {this.state.stepByStepMode && (
                 <p>Riskli An: {this.state.riskyMomentCounter / 2 + 1}</p>
@@ -324,14 +345,14 @@ export class Record extends Component {
 
               <div>
                 <Button
-                  style={{ backgroundColor: "blue" }}
+                  style={{ backgroundColor: "blue", color:"white" }}
                   onClick={this.handleStepByStepPrevious}
                 >
                   Önceki Riskli Anı Oynat: Riskli An{" "}
                   {0 < this.state.riskyMomentCounter ?this.state.riskyMomentCounter / 2 : "YOK" }
                 </Button>
                 <Button
-                  style={{ backgroundColor: "blue" }}
+                  style={{ backgroundColor: "blue", color:"white" }}
                   onClick={this.handleStepByStepNext}
                 >
                   Sıradaki Riskli Ana Geç: Riskli An{" "}
@@ -345,7 +366,13 @@ export class Record extends Component {
                 </Button>
               </div>
             </Col>
-            <Col debug>Seçilen Foto</Col>
+            <Col debug>Seçilen Foto
+            <img alt="lastPaperControl" src={this.state.lastPaperControl}/>
+            <img alt="idControl" src={this.state.idControl}/>
+            <img alt="firstPaperControl" src={this.state.firstPaperControl}/>
+            
+              
+              </Col>
           </Row>
           <br></br>
           <Row debug style={{ height: "35vmin" }}>
